@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components"
+import CounterApp from "./CounterApp";
 
 let Button = styled.button`
 background-color : blue;
@@ -43,6 +44,7 @@ const Content = () => {
       <h1 style={headingStyle}> Main Content - {user}</h1>
       <Button onClick={printSomething}> Click Me! </Button>
       <NewButton onClick={ (e)=> printSomething1(e)}> Duplicate </NewButton>
+      <CounterApp />
     </main>
   );
 };
