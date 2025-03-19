@@ -12,7 +12,7 @@ const CounterApp = () => {
   // let count = 0;
 
   const [count, setCount] = useState(0);
-  const [data, setData] = useState("Error");
+  const [data, setData] = useState("Success");
 
   let message;
   let remainingClick = 10 - count;
