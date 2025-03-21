@@ -65,3 +65,16 @@
     margin: auto;
     text-align:center;
   }
+
+  main ul{
+    list-style: none;
+  }
+
+  main .item svg{
+    color: orangered;
+    outline: none;
+  }
+
+  main .item svg:hover{
+    color: red;
+  }
