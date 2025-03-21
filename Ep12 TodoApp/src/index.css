@@ -70,11 +70,12 @@
     list-style: none;
   }
 
-  main .item svg{
-    color: orangered;
+  main .item #edit{
+    color: yellowgreen;
     outline: none;
   }
 
-  main .item svg:hover{
+  main .item #delete{
     color: red;
+    outline: none;
   }

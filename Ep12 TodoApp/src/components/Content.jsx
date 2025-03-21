@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Shop from "./Shop";
 import { FaTrashCan } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
+import { CiSaveDown2 } from "react-icons/ci";
+import { IoIosAddCircle } from "react-icons/io";
 
 const Content = () => {
   let [items, setItems] = useState([
@@ -12,6 +14,7 @@ const Content = () => {
 
   let [newItem, setNewItem] = useState("");
   let [isEditing, setIsEditing] = useState(false);
+  let [currentEleID, setCurrentEleID] = useState(null);
 
   let handleChecked = (id) => {
     let newListItems = items.map((item) => {
@@ -21,9 +24,40 @@ const Content = () => {
     setItems(newListItems);
   };
 
-  let handleUpdate = () => {
-    setIsEditing(true)
-  }
+  let handleAddorSaveItem = () => {
+    if (isEditing) {
+      let newListItems = items.map((item) => {
+        return item.id === currentEleID ? { ...item, label: newItem } : item;
+      });
+
+      setItems(newListItems);
+      setCurrentEleID(null);
+      setNewItem("");
+      setIsEditing(false);
+    } else {
+      setItems([
+        ...items,
+        { id: items.length + 1, label: newItem, checked: false },
+      ]);
+      setNewItem("");
+    }
+  };
+
+  let handleUpdate = (id) => {
+    let listItem = items.find((item) => item.id === id);
+    setNewItem(listItem.label);
+    setIsEditing(true);
+    setCurrentEleID(id);
+  };
+
+  let handleDelete = (id) => {
+    let newItems = items
+      .filter((item) => item.id !== id)
+      .map((item, index) => {
+        return { ...item, id: index + 1 };
+      });
+    setItems(newItems);
+  };
 
   return (
     <main>
@@ -37,7 +71,9 @@ const Content = () => {
             setNewItem(e.target.value);
           }}
         />
-        <button>{isEditing ? "Save" : "Add"}</button>
+        <button onClick={handleAddorSaveItem}>
+          {isEditing ? <CiSaveDown2 color="green" /> : <IoIosAddCircle color="blue" />}
+        </button>
       </div>
       <ul>
         {items.map((item) => {
@@ -49,8 +85,18 @@ const Content = () => {
                 onChange={() => handleChecked(item.id)}
               />
               <label>{item.label}</label>
-              <FaEdit role="button" tabIndex={0} onClick={handleUpdate} />
-              <FaTrashCan role="button" tabIndex={0} />
+              <FaEdit
+                id="edit"
+                role="button"
+                tabIndex={0}
+                onClick={() => handleUpdate(item.id)}
+              />
+              <FaTrashCan
+                id="delete"
+                role="button"
+                tabIndex={0}
+                onClick={() => handleDelete(item.id)}
+              />
             </li>
           );
         })}
