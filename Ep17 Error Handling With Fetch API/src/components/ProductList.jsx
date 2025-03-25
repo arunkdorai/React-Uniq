@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import { Atom } from "react-loading-indicators";
 
 const ProductList = () => {
   let [products, setProducts] = useState([]);
@@ -8,10 +9,13 @@ const ProductList = () => {
   let [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:4000/products/", { method: "GET" })
+    fetch("http://localhost:4000/products", { method: "GET" })
       .then((response) => {
-        console.log(response.ok)
-        return response.json();
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Search Proper Data");
+        }
       })
       .then((data) => {
         setProducts(data);
@@ -27,7 +31,14 @@ const ProductList = () => {
   if (isLoading) {
     return (
       <div>
-        <h1>Loading...</h1>
+        <center>
+          <Atom
+            color="#f5145a"
+            size="large"
+            text="Loading"
+            textColor="#f87c00"
+          />
+        </center>
       </div>
     );
   } else {
