@@ -6,6 +6,7 @@ import Products from "./components/Products";
 import SignUp from "./components/SignUp";
 import TodoApp from "./components/TodoApp";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
   let user = "Arun"
