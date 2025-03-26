@@ -7,14 +7,41 @@ import { MdAddShoppingCart } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import { MdOutlineFolderDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const ProductList = () => {
+  let navigate = useNavigate();
 
-  let navigate = useNavigate()
-
-  let { products, error, isLoading } = useFetch(
+  let { products, error, isLoading, setProducts } = useFetch(
     "http://localhost:5000/products"
   );
+
+  let handleDelete = (id) => {
+    axios.delete(`http://localhost:5000/products/${id}`).then(() => {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+          });
+        }
+      });
+
+      let newProductList = products.filter((product) => product.id !== id);
+
+      setProducts(newProductList);
+    });
+  };
 
   if (isLoading) {
     return (
@@ -32,6 +59,10 @@ const ProductList = () => {
   } else {
     return (
       <div>
+        <article>
+          <span>To Create New Product</span>
+          <Button onClick={()=> {navigate("/newProduct")}}>Click Me!</Button>
+        </article>
         <h1>Product List</h1>
         {products.length !== 0 && (
           <section className="products">
@@ -62,12 +93,18 @@ const ProductList = () => {
                   <Button variant="primary">
                     <MdAddShoppingCart />
                   </Button>
-                  <Button variant="secondary" onClick={()=>{
-                    navigate(`/update/${product.id}`)
-                  }}>
+                  <Button
+                    variant="secondary"
+                    onClick={() => {
+                      navigate(`/update/${product.id}`);
+                    }}
+                  >
                     <FaEdit />
                   </Button>
-                  <Button variant="danger">
+                  <Button
+                    variant="danger"
+                    onClick={() => handleDelete(product.id)}
+                  >
                     <MdOutlineFolderDelete />
                   </Button>
                 </Card.Footer>

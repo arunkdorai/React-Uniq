@@ -11,9 +11,9 @@ function useFetch(url) {
       try {
         // let response = await fetch(url);
 
-        let response = await axios.get(url)
+        let response = await axios.get(url);
 
-        setProducts(response.data)
+        setProducts(response.data);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -23,7 +23,7 @@ function useFetch(url) {
     fetchApi();
   }, []);
 
-  return { products, error, isLoading };
+  return { products, error, isLoading, setProducts };
 }
 
 export default useFetch;
