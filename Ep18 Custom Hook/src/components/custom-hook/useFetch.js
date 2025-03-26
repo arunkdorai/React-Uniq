@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 function useFetch(url) {
   let [products, setProducts] = useState([]);
@@ -8,15 +9,11 @@ function useFetch(url) {
   useEffect(() => {
     let fetchApi = async () => {
       try {
-        let response = await fetch(url);
+        // let response = await fetch(url);
 
-        if (response.ok) {
-          let data = await response.json();
+        let response = await axios.get(url)
 
-          setProducts(data);
-        } else {
-          throw new Error("Data Not Found");
-        }
+        setProducts(response.data)
       } catch (error) {
         setError(error.message);
       } finally {

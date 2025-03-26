@@ -11,7 +11,7 @@ import NavBar from "./components/NavBar";
 import NotFound from "./components/NotFound";
 
 function App() {
-  let user = "Arun";
+  // let user = "Arun";
   return (
     <div className="app">
       <Router>
